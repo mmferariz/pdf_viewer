@@ -217,8 +217,7 @@ class _PDFViewerState extends State<PDFViewer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
+    return Stack(
         children: <Widget>[
           PageView.builder(
             physics:
@@ -246,98 +245,6 @@ class _PDFViewerState extends State<PDFViewer> {
               ? _drawIndicator()
               : Container(),
         ],
-      ),
-      floatingActionButton: widget.showPicker && widget.document.count > 1
-          ? FloatingActionButton(
-              elevation: 4.0,
-              tooltip: widget.tooltip.jump,
-              child: Icon(
-                Icons.view_carousel,
-                color: widget.pickerIconColor ?? Colors.white,
-              ),
-              backgroundColor: widget.pickerButtonColor ?? Colors.blue,
-              onPressed: () {
-                _pickPage();
-              },
-            )
-          : null,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: (widget.showNavigation && widget.document.count > 1)
-          ? widget.navigationBuilder != null
-              ? widget.navigationBuilder(
-                  context,
-                  _pageNumber,
-                  widget.document.count,
-                  _jumpToPage,
-                  _animateToPage,
-                )
-              : BottomAppBar(
-                  child: new Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                        child: IconButton(
-                          icon: Icon(Icons.first_page),
-                          tooltip: widget.tooltip.first,
-                          onPressed: _pageNumber == 1 || _isLoading
-                              ? null
-                              : () {
-                                  _pageNumber = 1;
-                                  _jumpToPage();
-                                },
-                        ),
-                      ),
-                      Expanded(
-                        child: IconButton(
-                          icon: Icon(Icons.chevron_left),
-                          tooltip: widget.tooltip.previous,
-                          onPressed: _pageNumber == 1 || _isLoading
-                              ? null
-                              : () {
-                                  _pageNumber--;
-                                  if (1 > _pageNumber) {
-                                    _pageNumber = 1;
-                                  }
-                                  _animateToPage();
-                                },
-                        ),
-                      ),
-                      widget.showPicker
-                          ? Expanded(child: Text(''))
-                          : SizedBox(width: 1),
-                      Expanded(
-                        child: IconButton(
-                          icon: Icon(Icons.chevron_right),
-                          tooltip: widget.tooltip.next,
-                          onPressed:
-                              _pageNumber == widget.document.count || _isLoading
-                                  ? null
-                                  : () {
-                                      _pageNumber++;
-                                      if (widget.document.count < _pageNumber) {
-                                        _pageNumber = widget.document.count;
-                                      }
-                                      _animateToPage();
-                                    },
-                        ),
-                      ),
-                      Expanded(
-                        child: IconButton(
-                          icon: Icon(Icons.last_page),
-                          tooltip: widget.tooltip.last,
-                          onPressed:
-                              _pageNumber == widget.document.count || _isLoading
-                                  ? null
-                                  : () {
-                                      _pageNumber = widget.document.count;
-                                      _jumpToPage();
-                                    },
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-          : Container(height: 0,),
-    );
+      );
   }
 }
